@@ -1,0 +1,29 @@
+﻿@model EventWeb.Models.ViewModel.UserVM.EmailConfirmationVM
+
+@{
+    ViewData["Title"] = "Confirm Mail";
+}
+
+<div class="d-flex h-100">
+    <div class="m-auto">        
+        <form asp-action="SendConfirmMail">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="UserId" class="form-control" type="hidden"/>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Resend" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <p>Dont receive mail or wrong email?Click Resend.</p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,151 @@
+﻿@model EventWeb.Models.ViewModel.TicketVM.TicketListVM;
+
+@{
+    ViewData["Title"] = "Home";
+}
+<p class="text-danger">@TempData["PurchaseStatus"]</p>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-controller="Event" asp-action="Create">New Event</a>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Event
+            </th>
+            <th>
+                Desription
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th></th>
+            <th></th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>Action</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Tickets)
+        {
+            <tr>
+                <td>
+                    @item.Event.EventName
+                </td>
+                <td>
+                    @item.Event.Description
+                </td>
+                <td>
+                    @item.Event.Date.ToLocalTime().ToString("dddd dd/MM/yyyy hh:mm tt")
+                </td>
+                <td>
+                    @item.UserTickets.Count/@Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated && item.UserTickets.Any(x => x.UserId == Model.CurrentUser.Id))
+                    {
+
+                        <button class="btn btn-primary" disabled>Purchased</button>
+
+                    }
+                    else if (item.Quantity == item.UserTickets.Count)
+                    {
+
+                        <button class="btn btn-primary" disabled>Sold out</button>
+
+                    }
+                    else
+                    {
+
+                        <button class="btn btn-primary Purchase" data-toggle="modal" data-id="@item.Id" data-target="#PurchaseForm">Purchase</button>
+
+                    }
+                </td>
+                <td>
+                    @if (item.Event.Date > DateTimeOffset.UtcNow)
+                    {
+                        <button class="btn btn-primary">Up coming</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-danger">Ongoing</button>
+                    }
+                </td>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a class="btn btn-danger" asp-action="Edit" asp-controller="Event" asp-route-id="@item.Id"><span class="fa fa-gear"></span></a>
+                        <button class="btn btn-danger Delete" data-toggle="modal" data-id="@item.EventId" data-target="#DeleteEvent"><span class="fa fa-trash"></span></button>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<form asp-controller="UserTicket" asp-action="PurchaseTicket" method="post">
+    <input type="hidden" id="PurchaseTicketId" name="TicketId" />
+    <!-- Modal Form -->
+    <div class="modal" id="PurchaseForm">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Purchase Ticket</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Do you want to purchase this ticket?
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@if (User.Identity.IsAuthenticated || User.IsInRole("Admin"))
+{
+    <form asp-controller="Event" asp-action="Delete" method="post">
+        <input type="hidden" id="DeleteEventId" name="EventId" />
+        <!-- Modal Form -->
+        <div class="modal" id="DeleteEvent">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete Event</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        Do you want to delete this Event?
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+<script type="text/javascript">
+    $('button.Purchase').click(function () {
+        $('#PurchaseTicketId').val($(this).data('id'));
+    });
+    $('button.Delete').click(function () {
+        $('#DeleteEventId').val($(this).data('id'));
+    });
+</script>
+

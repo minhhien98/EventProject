@@ -1,0 +1,60 @@
+﻿@model IEnumerable<DomainModel.Entities.UserTicket>
+
+@{
+    ViewData["Title"] = "MyTicket";
+}
+
+<h1>My Ticket</h1>
+<p class="text-danger">@TempData["TicketStatus"]</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket.Event.Date)
+            </th>
+            <th></th>
+            <th>Resend ticket to email</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.TicketName)
+            </td>
+            <td>
+                @item.PurchaseDate.ToLocalTime().ToString("dddd dd/MM/yyyy hh:mm tt")
+            </td>
+            <td>
+                @item.Ticket.Event.Date.ToLocalTime().ToString("dddd dd/MM/yyyy hh:mm tt")
+            </td>
+            <td>
+                @if (item.Ticket.Event.Date > DateTimeOffset.UtcNow)
+                {
+                    <button class="btn btn-primary">Up coming</button>
+                }
+                else if (item.Ticket.ExpiryDate < DateTimeOffset.UtcNow)
+                {
+                    <button class="btn btn-light">Finished</button>
+                }
+                else
+                {
+                    <button class="btn btn-danger">ongoing</button>
+                }
+            </td>            
+            <td>
+                @if(item.Ticket.ExpiryDate > DateTimeOffset.UtcNow)
+                {
+                    <a class="btn btn-danger" asp-action="ResendQRTicket" asp-route-id="@item.EncryptedId">Resend</a>
+                }                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
