@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DomainModel.Entities
@@ -17,6 +18,7 @@ namespace DomainModel.Entities
         public string Phone { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [Column(TypeName = "Date")]
         public DateTime Birthday { get; set; }
         public int RoleId { get; set; }
         public Role Role { get; set; }

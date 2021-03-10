@@ -10,9 +10,11 @@ namespace EventWeb.Models.ViewModel.UserVM
     {
         [Required]
         [Display(Name = "Current Email")]
+        [EmailAddress(ErrorMessage = "Invalid Email")]
         public string OldEmail { get; set; }
         [Required]
         [Display(Name = "New Email")]
+        [EmailAddress(ErrorMessage = "Invalid Email")]
         public string NewEmail { get; set; }
     }
 }

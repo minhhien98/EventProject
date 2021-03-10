@@ -84,9 +84,9 @@ namespace EventWeb.Controllers
             var vm = new EmailConfirmationVM()
             {
                 UserId = Convert.ToInt32(_protector.Decode(userId)),
-                Email = _protector.Decode(email)
+                ConfirmationEmail = _protector.Decode(email.ToString()),
             };
-            if (!IsValidEmail(vm.Email))
+            if (!IsValidEmail(vm.ConfirmationEmail))
             {
                 ModelState.AddModelError("Email", "Invalid Email");
                 return View(vm);
@@ -118,9 +118,9 @@ namespace EventWeb.Controllers
             if (ModelState.IsValid)
             {
                 var user = _userService.GetUserById(vm.UserId);
-                if (vm.Email != user.Email)
+                if (vm.ConfirmationEmail != user.Email)
                 {
-                    user.Email = vm.Email;
+                    user.Email = vm.ConfirmationEmail;
                     _userService.EditUser(user);
                 }
                 //send Confirm Email

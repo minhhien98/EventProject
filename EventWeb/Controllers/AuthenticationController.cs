@@ -5,17 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Utility;
 
 namespace EventWeb.Controllers
 {
     public class AuthenticationController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IUserService _userService;
-        public AuthenticationController(IAuthenticationService authenticationService,IUserService userService)
+        private readonly CustomIDataProtection _protector;
+        public AuthenticationController(IAuthenticationService authenticationService,CustomIDataProtection protector)
         {
             _authenticationService = authenticationService;
-            _userService = userService;
+            _protector = protector;
         }
         public IActionResult Login()
         {
@@ -38,7 +39,7 @@ namespace EventWeb.Controllers
             {
                 if (!user.EmailConfirmed)
                 {
-                    return RedirectToAction("SendConfirmMail", "User", new { userId = user.Id, email = user.Email });
+                    return RedirectToAction("SendConfirmMail", "User", new { userId = _protector.Encode(user.Id.ToString()), email = _protector.Encode(user.Email)});
                 }
                 return RedirectToAction("Index", "Home");
             }

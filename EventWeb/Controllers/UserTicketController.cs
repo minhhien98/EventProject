@@ -74,7 +74,7 @@ namespace EventWeb.Controllers
             {
                 return NotFound();
             }
-            var list = _userTicketService.GetUserTicketList().Where(u => u.UserId == user.Id);
+            var list = _userTicketService.GetUserTicketList().Where(u => u.UserId == user.Id).OrderByDescending(u=>u.PurchaseDate);
             return View(list);
         }
         [Authorize]
@@ -95,6 +95,13 @@ namespace EventWeb.Controllers
         public IActionResult CheckIn(string d, string u)
         {
             var ut = _userTicketService.GetUserTicketList().Where(t => t.Id == Convert.ToInt32(_protector.Decode(d)) && t.User.UserName == _protector.Decode(u)).FirstOrDefault();
+            if(ut.IsScanned == false)
+            {
+                var temp = ut;
+                temp.IsScanned = true;
+                temp.ScanDate = DateTimeOffset.UtcNow;
+                _userTicketService.EditUserTicket(temp);
+            }            
             return View(ut);
         }
 

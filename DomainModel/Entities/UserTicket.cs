@@ -13,6 +13,8 @@ namespace DomainModel.Entities
         public User User { get; set; }
         [Display(Name = "Purchase Date")]
         public DateTimeOffset PurchaseDate { get; set; }
+        public bool IsScanned { get; set; }
+        public DateTimeOffset ScanDate { get; set; }
         public byte[] QRCode { get; set; }
 
     }

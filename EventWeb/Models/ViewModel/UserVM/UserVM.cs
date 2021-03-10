@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,6 +27,7 @@ namespace EventWeb.Models.ViewModel.UserVM
         [Required]
         public string Lastname { get; set; }
         [Required]
+        [Column(TypeName = "Date")]
         public DateTime Birthday { get; set; }
         [Required]
         [Display(Name = "Role:")]

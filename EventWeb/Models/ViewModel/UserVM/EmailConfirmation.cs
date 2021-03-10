@@ -12,6 +12,6 @@ namespace EventWeb.Models.ViewModel.UserVM
         [Required]
         [EmailAddress(ErrorMessage ="Invalid Email")]
         [Display(Name ="Email:")]
-        public string Email { get; set; }
+        public string ConfirmationEmail { get; set; }
     }
 }

@@ -10,32 +10,40 @@
     {
         @if (Model.Ticket.ExpiryDate > DateTimeOffset.UtcNow)
         {
-            <dl class="row">
-                <dt class="col-sm-2">
-                    Ticket:
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Ticket.TicketName)
-                </dd>
-                <dt class="col-sm-2">
-                    First name:
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.User.FirstName)
-                </dd>
-                <dt class="col-sm-2">
-                    Last name:
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.User.LastName)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.PurchaseDate)
-                </dt>
-                <dd class="col-sm-10">
-                    @Model.PurchaseDate.ToLocalTime().ToString("dddd dd/MM/yyyy hh:mm tt")
-                </dd>
-            </dl>
+            @if (!Model.IsScanned)
+            {
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Ticket:
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Ticket.TicketName)
+                    </dd>
+                    <dt class="col-sm-2">
+                        First name:
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.User.FirstName)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Last name:
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.User.LastName)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.PurchaseDate)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Model.PurchaseDate.ToLocalTime().ToString("dddd dd/MM/yyyy hh:mm tt")
+                    </dd>
+                </dl>
+            }
+            else
+            {
+                <p>Scanned Ticket</p>
+            }
+
         }
         else
         {

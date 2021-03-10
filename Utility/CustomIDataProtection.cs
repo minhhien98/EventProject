@@ -22,7 +22,14 @@ namespace Utility
         }
         public string Decode(string data)
         {
-            return protector.Unprotect(data);
+            try
+            {
+                return protector.Unprotect(data);
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
     }
 }
