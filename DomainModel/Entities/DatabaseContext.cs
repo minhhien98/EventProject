@@ -15,7 +15,7 @@ namespace DomainModel.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=.\\SQLEXPRESS; database=EventDatabase;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("server=.\\SQLEXPRESS; database=QRDatabase;Trusted_Connection=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

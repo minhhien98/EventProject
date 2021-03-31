@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.50.0.2175" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="5.0.3" />
     <PackageReference Include="QRCoder" Version="1.4.1" />
   </ItemGroup>

@@ -52,6 +52,8 @@ namespace EventWeb
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<IUserTicketService, UserTicketService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddSingleton<IBackGroundTaskService, BackgroundTaskService>();
+            services.AddHostedService<BackService>();
             //Encrypt parameter DI
             services.AddSingleton<UniqueCode>();
             services.AddSingleton<CustomIDataProtection>();

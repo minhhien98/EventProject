@@ -12,6 +12,7 @@ namespace Utility
     public class CustomIDataProtection
     {
         private readonly IDataProtector protector;
+        public CustomIDataProtection() { }
         public CustomIDataProtection(IDataProtectionProvider dataProtectionProvider, UniqueCode uniqueCode)
         {
             protector = dataProtectionProvider.CreateProtector(uniqueCode.EncryptParameter);
